@@ -26,7 +26,7 @@ public class MaxLenOfChildEqualK {
                     break;
                 }
             }
-            if((right - left ) > len){
+            if((right - left ) > len && sum == k){
                 len = right-left;
                 resLeft = left;
                 resRight = right -1;

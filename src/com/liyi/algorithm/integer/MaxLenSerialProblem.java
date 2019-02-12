@@ -33,8 +33,6 @@ public class MaxLenSerialProblem {
                 map.put(sum,i);
             }
         }
-
         System.out.println(len);
-
     }
 }
