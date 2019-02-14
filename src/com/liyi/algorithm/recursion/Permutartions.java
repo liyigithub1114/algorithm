@@ -1,4 +1,4 @@
-package com.liyi.algorithm.dynamic;
+package com.liyi.algorithm.recursion;
 
 import java.util.Arrays;
 import java.util.HashSet;

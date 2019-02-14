@@ -9,7 +9,7 @@ public class ReversePartList {
         listNode.next.next.next.next = new ListNode(5);
         listNode.next.next.next.next.next=new ListNode(6);
 
-        ListNode res = reverseBetween(listNode,1, 6);
+        ListNode res = reverseBetween(listNode,2, 3);
         while(res!=null){
             System.out.print( res.value+" ");
             res = res.next;
