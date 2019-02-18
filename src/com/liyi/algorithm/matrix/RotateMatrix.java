@@ -4,6 +4,9 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+/**
+ * 这是将排好序号的一维数组，组装成一个旋转的二维数组
+ */
 public class RotateMatrix {
         public static void main(String[] args) {
             Scanner in = new Scanner(System.in);
