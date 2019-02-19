@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class WindowSlide {
     public static void main(String[] args) {
-        getMax(new int[]{4,3,5,4,3,3,6,7},3);
+        getMax(new int[]{1,2,3,4,3,3,6,7},3);
     }
 
     public static void getMax(int[] arr,int size){
