@@ -2,6 +2,9 @@ package com.liyi.algorithm.dynamic;
 
 import java.util.Arrays;
 
+/**
+ * 矩阵内左上角走到右下角有多少条路经
+ */
 public class UniquePaths {
     public static void main(String[] args) {
         System.out.println(uniquePaths(3,2));
