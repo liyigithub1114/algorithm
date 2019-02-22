@@ -6,7 +6,7 @@ package com.liyi.algorithm.integer;
 public class SameCountMaxLenOfZeroOne {
     public static void main(String[] args) {
         //[0,1,0,1,1,0,0,1],0,0
-        int[] arr =new int[]{0,1,0,1,1,0,0,1,0,0,1};
+        int[] arr =new int[]{0,1,0,1,1,0,0,1,0,0,0,0,0,0,0};
         getMaxLen(arr);
     }
 
