@@ -11,11 +11,12 @@ public class ContinuesSubArrMax {
 
     public static void getMax(int[] nums){
         if(nums == null || nums.length == 0) return;
-        int left = 1;
-        int right = 1;
-        int res = nums[0];
         int len = nums.length;
-        while(left < len && right < len){
+        int max = 0;
+        int res = nums[0];
+        for(int i =0;i<len;i++){
+            max = Math.max(max + nums[i],nums[i]);
+            res = Math.max(res,max);
         }
         System.out.println(res);
     }
