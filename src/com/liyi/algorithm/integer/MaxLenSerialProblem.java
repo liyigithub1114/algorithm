@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public class MaxLenSerialProblem {
     public static void main(String[] args) {
-        int[] arr = new int[]{1,2,3,3};
-        getMaxlen(arr,6);
+        int[] arr = new int[]{-1,0,1,-1,0,1};
+        getMaxlen(arr,0);
     }
 
     public static void getMaxlen(int[] arr ,int K){

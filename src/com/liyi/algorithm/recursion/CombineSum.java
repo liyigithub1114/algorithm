@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class CombineSum {
     public static void main(String[] args) {
-        int nums[] = new int[]{2,3,6,7};
-        combine(nums,7);//[2，2，3]  [7]
+        int nums[] = new int[]{1,2,3,4,5};
+        combine(nums,5);//[2，2，3]  [7]
     }
 
     public static void combine(int[] nums,int target){
