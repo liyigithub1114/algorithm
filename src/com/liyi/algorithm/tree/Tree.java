@@ -2,9 +2,9 @@ package com.liyi.algorithm.tree;
 
 public class Tree {
 
-    int value;
-    Tree left;
-    Tree right;
+    public int value;
+    public Tree left;
+    public Tree right;
 
     public Tree(int value){
         this.value = value;
