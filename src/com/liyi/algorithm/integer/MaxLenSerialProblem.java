@@ -11,7 +11,8 @@ import java.util.Map;
  */
 public class MaxLenSerialProblem {
     public static void main(String[] args) {
-        int[] arr = new int[]{-1,0,1,-1,0,1};
+        //"ABAAABB"
+        int[] arr = new int[]{-1,1,-1,-1,-1,1,1};
         getMaxlen(arr,0);
     }
 
@@ -25,9 +26,10 @@ public class MaxLenSerialProblem {
             sum += arr[i];
             if(map.containsKey(sum-K)){
                 int j = map.get(sum-K);//假如这个数存在，代表j这个位置到i位置的累加和为K；
-                if(len<i-j){
-                    len = i - j;
-                }
+//                if(len<i-j){
+//                    len = i - j;
+//                }
+                len = Math.max(len,i-j);
             }
             if(!map.containsKey(sum)){
                 map.put(sum,i);

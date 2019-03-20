@@ -1,6 +1,5 @@
 package com.liyi.algorithm.design;
 
-import com.liyi.algorithm.list.Node;
 
 import java.util.HashMap;
 import java.util.Map;
