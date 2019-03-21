@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LFUCache {
+
     Map<Integer,LFUNode> keys;
     Map<LFUNode,LFUList> lists;
     LFUList headList;
@@ -11,7 +12,7 @@ public class LFUCache {
     int size;
 
     public LFUCache(int capacity){
-        if(capacity < 1){
+        if(capacity < 0){
             throw new RuntimeException("初始容量麻烦让他有点意义好嘛");
         }
         this.capacity = capacity;
@@ -52,9 +53,7 @@ public class LFUCache {
             lists.put(node, newList);
         } else {
             if (next.head.frequency == node.frequency) {
-                next.tail.down = node;
-                node.up = next.tail;
-                next.tail = node;
+                next.addNodeToTail(node);
                 lists.put(node, next);
             } else {
                 LFUList newList = new LFUList(node);
@@ -101,10 +100,35 @@ public class LFUCache {
             moveNodeToHighFrequency(node,list);
         }else{
             if(size == capacity){
+                //移除头链表的第一个元素
+                if(capacity == 0){
+                    return;
+                }
                 LFUNode node = this.headList.head;
-            }else {
-
+                this.headList.delete(node);
+                isGenerateNewHead(this.headList);
+                //消除影响
+                keys.remove(node.key);
+                lists.remove(node);
+                size--;
             }
+            LFUNode node = new LFUNode(key,value);
+            node.frequency++;
+            if(this.headList == null){
+                this.headList = new LFUList(node);
+            }else{
+                if(this.headList.head.frequency == 1){
+                    headList.addNodeToTail(node);
+                }else{
+                    LFUList list = new LFUList(node);
+                    list.next = this.headList;
+                    this.headList.pre = list;
+                    this.headList = list;
+                }
+            }
+            keys.put(key,node);
+            lists.put(node,headList);
+            size++;
         }
     }
 }
@@ -123,6 +147,7 @@ class LFUList{
 
     //删除一个节点
     public void delete(LFUNode node){
+        if(node == null) return;
         LFUNode up = node.up;
         LFUNode down = node.down;
         if(up == null && down==null){
@@ -142,10 +167,12 @@ class LFUList{
             this.head  = down;
             down.up = null;
         }
+        node.up = null;
+        node.down = null;
     }
 
     //增加一个节点
-    public void addNodeToHead(LFUNode node){
+    public void addNodeToTail(LFUNode node){
         if(this.head == null){
             this.head = node;
             this.tail = node;
