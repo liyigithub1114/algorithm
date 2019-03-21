@@ -4,9 +4,10 @@ package com.liyi.algorithm.tree;
  * 根据先序遍历和中序遍历返回一棵二叉树
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
+    private static int index = 0;
     public static void main(String[] args) {
-        int[] preorder = new int[]{3,9,11,12,20,15,7};
-        int[] inorder = new int[]{11,9,12,3,15,20,7};
+        int[] preorder = new int[]{1,2,3};
+        int[] inorder = new int[]{1,3,2};
         Tree tree = buildTree(preorder,inorder,0,0,inorder.length-1);
         System.out.println(tree);
     }
@@ -20,14 +21,21 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
      *
      *  对于 11，9，12
      */
-    public static Tree buildTree(int[] preorder, int[] inorder,int index,int inStart,int inEnd) {
-        if(index == preorder.length || inStart == inorder.length  || inEnd < 0 ) return null;
-        int val = preorder[index];
+    public static Tree buildTree(int[] preorder, int[] inorder,int next,int inStart,int inEnd) {
+        if(index == preorder.length || inStart == inorder.length  || inEnd < 0) return null;
+        int val = preorder[next];
         Tree tree = new Tree(val);
-        for(int i =0;i<inorder.length;i++){
+        if(inStart == inEnd){
+            return tree;
+        }
+        for(int i =inStart;i<= inEnd;i++){
             if(inorder[i] == val){
-                tree.left = buildTree(preorder,inorder,index+1,inStart,i - 1);
-                tree.right = buildTree(preorder,inorder,index+1,i+1,inEnd);
+                if(i -1 >= inStart){
+                    tree.left = buildTree(preorder,inorder,++index,inStart,i - 1);
+                }
+                if(inEnd >= i+1){
+                    tree.right = buildTree(preorder,inorder,++index,i+1,inEnd);
+                }
             }
         }
         return tree;
