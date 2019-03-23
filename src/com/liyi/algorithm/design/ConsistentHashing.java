@@ -48,16 +48,87 @@ for n = 5, return
 */
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
-public class ConsistentHasing {
+public class ConsistentHashing {
 
+    public static void main(String[] args) {
+        List<List<Integer>> my = myConsistentHashing(356);
+        List<List<Integer>> other = consistentHashing(356);
+
+        System.out.println("---------------------");
+        boolean flag = true;
+        for(int i=0;i<my.size();i++){
+            List<Integer> myList = my.get(i);
+            List<Integer> otherList = other.get(i);
+            for(int j=0;j<3;j++){
+                if(myList.get(j) != otherList.get(j).intValue()){
+                    flag = !flag;
+                    System.out.println(myList);
+                    System.out.println(otherList);
+                }
+            }
+        }
+        System.out.println("finally result compare :" + flag);
+    }
+
+    //自己编写的程序
+    public static List<List<Integer>> myConsistentHashing(int n){
+        long startTime = System.currentTimeMillis();
+        if(n == 0) return new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        PriorityQueue<List<Integer>> queue = new PriorityQueue<>(new Comparator<List<Integer>>() {
+            @Override
+            public int compare(List<Integer> o1, List<Integer> o2) {
+                int index1 = o1.get(1) - o1.get(0);
+                int index2 = o2.get(1) - o2.get(0);
+                if(index1 != index2){
+                    return (index2 - index1);
+                }else{
+                    return o1.get(2) - o2.get(2);
+                }
+            }
+        });
+        for(int i=1;i<=n;i++){
+            List<Integer> myHasing = new ArrayList<>();
+            if(i == 1){
+                myHasing.add(0);
+                myHasing.add(359);
+                myHasing.add(i);
+                queue.add(myHasing);
+                res.add(myHasing);
+            }else{
+                List<Integer> poll = queue.poll();
+                int start = poll.get(0);
+                int end = poll.get(1);
+                if(end - start <= 0){
+                    break;
+                }
+
+                poll.set(0,start);
+                poll.set(1,(start+end) / 2);
+                queue.add(poll);
+
+                myHasing.add((start+end)/2 + 1);
+                myHasing.add(end);
+                myHasing.add(i);
+                queue.add(myHasing);
+                res.add(myHasing);
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("MyHasing use time = " + (endTime - startTime));
+        return res;
+    }
 
 
 
 
     //已经通过测试的答案，用于自己写后对比
-    public List<List<Integer>> consistentHashing(int n) {
+    public static List<List<Integer>> consistentHashing(int n) {
+        long startTime = System.currentTimeMillis();
         List<List<Integer>> ret = new ArrayList<List<Integer>>();
         if (n == 0) {
             return ret;
@@ -83,6 +154,8 @@ public class ConsistentHasing {
             }
 
             if (max == 1) {
+                long endTime = System.currentTimeMillis();
+                System.out.println("otherHasing use time = " + (endTime - startTime));
                 return ret;
             }
 
@@ -93,7 +166,8 @@ public class ConsistentHasing {
             target.set(1, (target.get(1) + target.get(0)) / 2);
             ret.add(newMachine);
         }
-
+        long endTime = System.currentTimeMillis();
+        System.out.println("otherHasing use time = " + (endTime - startTime));
         return ret;
     }
 }
