@@ -55,8 +55,10 @@ public class PaintHouse2 {
                     }else{
                         dp[i][j] += dp[i-1][y] + cost[i][j];
                     }
-                    if(res > dp[i][j]){}
-                    res = dp[i][j];
+                    if(res > dp[i][j]){
+
+                        res = dp[i][j];
+                    }
                 }
             }
         }

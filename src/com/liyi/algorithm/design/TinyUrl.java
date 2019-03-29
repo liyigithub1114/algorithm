@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class TinyUrl {
 
+    private static int size = 0 ;
+
     public static void main(String[] args) {
         TinyUrl tinyUrl = new TinyUrl();
         String encode = tinyUrl.generateUrl(1);
