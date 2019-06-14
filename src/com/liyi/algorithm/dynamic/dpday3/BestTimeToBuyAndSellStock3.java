@@ -11,7 +11,7 @@ package com.liyi.algorithm.dynamic.dpday3;
  */
 public class BestTimeToBuyAndSellStock3 {
     public static void main(String[] args) {
-
+        System.out.println(getProfit(new int[]{ 4,4,6,1,1,4,2,5},2));
     }
 
 
@@ -19,19 +19,68 @@ public class BestTimeToBuyAndSellStock3 {
      * 分析
      *两笔交易，起始都应该为0
      * int[][] dp 代表从i位置分别买入和卖出的情况
-     * 0,3,1,4
      *
-     * 0 买入：0 卖出0
-     * 3：买入：0 卖出：3
-     * 1：买入：0 卖出：3为买入时，1 ； 3为卖出时，dp[3] + 1-3 = 1
-     * 4：买入：0 卖出：1为买入时，3； 1为卖出时，4
+     *例如 k = 2
+     *
+     * 阶段1 ： 没有股票
+     * 阶段2 ： 有股票，且第一次购买
+     * 阶段3 ： 没有股票，第一次卖出
+     * 阶段4 ： 有股票， 第二次购入
+     * 阶段5 ： 没有股票， 第二次卖出
+     *
+     * 此处写通用方法，最多K次买卖
      */
-    public static void getProfit(int[] prices){
-        if(prices == null || prices.length ==0) return  ;
-        int[][] dp = new int[prices.length][3];
+    public static int getProfit(int[] prices, int k){
+        if(prices == null || prices.length == 0){
+            return 0;
+        }
 
-        dp[0][0] = 0;//买入，买入时都为0
-        dp[0][1] = 0;//卖出，上一个为买入时
-        dp[0][2] = 0;//卖出，上一个为卖出时
+
+        //在第i天处于状态 k 时的收益
+        int[][] dp = new int[prices.length + 1][2 * k + 2];
+
+        dp[0][1] = 0;
+
+        for(int i = 2; i < dp[0].length; i++){
+            dp[0][i] = Integer.MIN_VALUE;
+        }
+
+        for(int i = 1; i <= prices.length; i++){
+            dp[i][1] = 0;
+
+            for(int j = 1; j < dp[0].length; j = j + 2){
+                //假如在阶段1，3，5
+                //可能1：前一天就在状态3，5
+                dp[i][j] = dp[i - 1][j];
+
+                //可能2： 前一天在2，或者4, dp[i][j] = 前一天的收益加今天的收益(注意判断条件 j > 1){因为阶段1是最小，没有阶段0}
+                if(i > 1 && j >1 && dp[i - 1][j - 1] != Integer.MIN_VALUE){
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - 1] + prices[i - 1] - prices[i - 2]);
+                }
+            }
+            for(int j = 2; j < dp[0].length; j = j + 2){
+                //假如在2，4阶段
+
+                //假如在阶段3,默认继承
+                dp[i][j] = dp[i - 1][j - 1];
+
+                //假如在前一天在阶段4
+                if(i > 1 && j > 1 && dp[i - 1][j] != Integer.MIN_VALUE){
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j] + prices[i - 1] - prices[i - 2]);
+                }
+                //假如前一天在阶段2
+                if(i > 1 && j > 1 && dp[i - 1][j - 2] != Integer.MIN_VALUE){
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - 2] + prices[i - 1] - prices[i - 2]);
+                }
+
+            }
+        }
+
+        int res = 0;
+        for(int i = 1; i < dp[0].length; i++){
+            res = Math.max(dp[prices.length][i],res);
+        }
+
+        return res;
      }
 }
