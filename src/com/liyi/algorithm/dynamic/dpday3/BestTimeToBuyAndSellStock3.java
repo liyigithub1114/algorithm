@@ -20,7 +20,7 @@ public class BestTimeToBuyAndSellStock3 {
      *两笔交易，起始都应该为0
      * int[][] dp 代表从i位置分别买入和卖出的情况
      *
-     *例如 k = 2
+     *例如 K = 2
      *
      * 阶段1 ： 没有股票
      * 阶段2 ： 有股票，且第一次购买
@@ -30,14 +30,14 @@ public class BestTimeToBuyAndSellStock3 {
      *
      * 此处写通用方法，最多K次买卖
      */
-    public static int getProfit(int[] prices, int k){
+    public static int getProfit(int[] prices, int K){
         if(prices == null || prices.length == 0){
             return 0;
         }
 
 
-        //在第i天处于状态 k 时的收益
-        int[][] dp = new int[prices.length + 1][2 * k + 2];
+        //在第i天处于状态 K 时的收益
+        int[][] dp = new int[prices.length + 1][2 * K + 2];
 
         dp[0][1] = 0;
 
@@ -83,4 +83,34 @@ public class BestTimeToBuyAndSellStock3 {
 
         return res;
      }
+
+    public int maxProfit(int K, int[] prices) {
+        if(prices == null || prices.length == 0){
+            return 0;
+        }
+        int res = 0;
+        if(K >= prices.length){
+            for(int i = 1; i < prices.length; i++){
+                if(prices[i] - prices[i - 1] >= 0){
+                    res += prices[i] - prices[i - 1];
+                }
+            }
+            return res;
+        }
+
+        int[][] must = new int[prices.length + 1][K + 1];
+        int[][] global = new int[prices.length + 1][K + 1];
+
+        for(int i = 1; i <= prices.length;i++){
+            for(int j = 1; j <= K; j++){
+                if(i == 1){
+                    continue;
+                }
+
+                must[i][j] = Math.max(global[i - 1][j - 1], must[i - 1][j]) + prices[i - 1] - prices[i - 2];
+                global[i][j] = Math.max(must[i][j], global[i - 1][j]);
+            }
+        }
+        return global[prices.length][K];
+    }
 }

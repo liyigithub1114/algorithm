@@ -61,4 +61,27 @@ public class FindOdd3 {
         }
         return b;
     }
+
+    public int singleNumberII(int[] A) {
+        if(A == null || A.length == 0){
+            return -1;
+        }
+
+        int[] bit = new int[32];
+
+        int sum = 0;
+        int res = 0;
+        for(int i = 0; i < bit.length; i++){
+            sum = 0;
+            for(int j = 0; j < A.length; j++){
+                if(((A[j] >> i) & 1) == 1){
+                    sum++;
+                    sum %= 3;
+                }
+            }
+            res |= sum << i;
+        }
+
+        return res;
+    }
 }

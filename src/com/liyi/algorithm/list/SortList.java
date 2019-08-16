@@ -7,57 +7,125 @@ public class SortList {
     public static void main(String[] args) {
             //Input: -1->5->3->4->0
             //Input: 4->2->1->3
-        ListNode head = new ListNode(2);
-        head.next = new ListNode(4);
-        head.next.next  = new ListNode(1);
-        head.next.next.next = new ListNode(3);
-
-        ListNode res = sort(head);
-        System.out.println(res);
     }
 
-    public static ListNode sort(ListNode head){
-        if(head == null) return null;
-        if(head.next == null) return head;
-        ListNode slow = head;
-        ListNode fast = head;
-        while(fast.next != null && fast.next.next != null){
+    //快慢指针找到中间节点
+    public ListNode findMiddle(ListNode node){
+        if(node == null){
+            return node;
+        }
+
+        ListNode slow = node;
+        ListNode fast = node.next;
+
+        while(fast != null && fast.next != null){
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        ListNode mid = slow.next;
-        slow.next = null;
-        ListNode left = sort(head);
-        ListNode right = sort(mid);
-        ListNode res = merge(left,right);
-        return res;
+        return slow;
     }
 
+    //合并左右两个节点
+    public ListNode merge(ListNode left, ListNode right){
+        if(left == null){
+            return right;
+        }
 
-    public static ListNode merge(ListNode left ,ListNode right){
-        if(left == null && right == null) return  null;
-        if(right == null) return left;
-        if(left == null) return right;
-        ListNode head = new ListNode(0);
-        ListNode temp = head;
+        if(right == null){
+            return left;
+        }
+
+        ListNode temp = new ListNode(0);
+        ListNode res = temp;
+
         while(left != null && right != null){
-            if(left.value < right.value){
+            if(left.value <= right.value){
                 temp.next = left;
                 left = left.next;
                 temp = temp.next;
-            }else if(left.value >= right.value){
+            }else{
                 temp.next = right;
                 right = right.next;
                 temp = temp.next;
             }
         }
-        if(left != null){
+
+        while(left != null){
             temp.next = left;
+            left = left.next;
+            temp = temp.next;
         }
-        if(right != null){
+
+        while(right != null){
             temp.next = right;
+            right = right.next;
+            temp = temp.next;
         }
-        return head.next;
+        return res.next;
+    }
+
+    public ListNode sortList(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        ListNode mid = findMiddle(head);
+
+        ListNode leftDummy = new ListNode(0), leftTail = leftDummy;
+        ListNode rightDummy = new ListNode(0), rightTail = rightDummy;
+        ListNode middleDummy = new ListNode(0), middleTail = middleDummy;
+        while (head != null) {
+            if (head.value < mid.value) {
+                leftTail.next = head;
+                leftTail = head;
+            } else if (head.value > mid.value) {
+                rightTail.next = head;
+                rightTail = head;
+            } else {
+                middleTail.next = head;
+                middleTail = head;
+            }
+            head = head.next;
+        }
+
+        leftTail.next = null;
+        middleTail.next = null;
+        rightTail.next = null;
+
+        ListNode left = sortList(leftDummy.next);
+        ListNode right = sortList(rightDummy.next);
+
+        return concat(left, middleDummy.next, right);
+
+    }
+
+    public ListNode concat(ListNode left, ListNode mid, ListNode right){
+        ListNode res = new ListNode(0);
+        ListNode tail = res;
+
+        tail.next = left;
+        tail = getTail(tail);
+
+        tail.next = mid;
+        tail = getTail(tail);
+
+        tail.next = right;
+        tail = getTail(tail);
+
+
+        return res.next;
+    }
+
+    public ListNode getTail(ListNode node){
+        if(node == null){
+            return node;
+        }
+
+        while(node.next != null){
+            node = node.next;
+        }
+
+        return node;
     }
 }

@@ -12,7 +12,7 @@ package com.liyi.algorithm.strings;
  */
 public class BFPRT {
     public static void main(String[] args) {
-        int[] arr = new int[]{1,2,3,4,5,6,7,8};
+        int[] arr = new int[]{1,9,2,8,3,7,4,6,5};
         int[] bigHeap = getBigHeap(arr, 4);
         for(int i = 0;i<bigHeap.length;i++){
             System.out.println(bigHeap[i]+" ");
@@ -28,6 +28,7 @@ public class BFPRT {
             heapInsert(heapK,arr[i],i);
         }
 
+        //获取前K小
         for(int i = k;i<arr.length;i++){
             heapK[0] = arr[i] < heapK[0] ? arr[i] : heapK[0];
             heapify(heapK,0,k);

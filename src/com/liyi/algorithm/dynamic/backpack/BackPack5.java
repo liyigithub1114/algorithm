@@ -26,7 +26,7 @@ public class BackPack5 {
         }
 
         for(int i = 1; i<= A.length; i++){
-            dp[i][0] = 1;
+            //dp[i][0] = 1;
             for(int j = 1; j <= target; j++){
                 //加入不拿最后一个，会有几种方式
                 dp[i][j] = dp[i - 1][j];

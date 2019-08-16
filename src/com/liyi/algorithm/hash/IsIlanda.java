@@ -1,6 +1,7 @@
 package com.liyi.algorithm.hash;
 
 public class IsIlanda {
+    //将n * m 的矩阵变成 id的矩阵， id = x * m + y   x = id / m  y = id % m
     public static void main(String[] args) {
         int[][] m1 = {  { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                         { 0, 1, 1, 1, 0, 1, 1, 1, 0 },

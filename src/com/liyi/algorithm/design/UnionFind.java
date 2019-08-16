@@ -1,4 +1,4 @@
-package com.liyi.algorithm.hash;
+package com.liyi.algorithm.design;
 
 import java.util.HashMap;
 import java.util.List;

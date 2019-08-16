@@ -40,4 +40,15 @@ public class Hash {
                 并且每个虚拟节点的数据都很平均
             */
      }
+
+     //神奇的33进制数，APR底层
+     private static int HASH_TABLE_SIZE = 10;
+     public static int hashFunction(String key){
+        int sum = 0;
+        for(int i = 0; i < key.length(); i++){
+            sum = sum * 33 + (int)(key.charAt(i));
+            sum = sum % HASH_TABLE_SIZE;
+        }
+        return sum;
+     }
 }
